@@ -28,3 +28,17 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm test
+
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v2
+      with:
+        name: htmlreport
+        path: cypress/reports
+        retention-days: 5
+
+    - name: Upload Video recording
+      uses: actions/upload-artifact@v2
+      with:
+        name: videorecording
+        path: cypress/videos
+        retention-days: 5
