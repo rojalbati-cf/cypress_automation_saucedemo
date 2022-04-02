@@ -3,37 +3,39 @@
 describe('Sauce Labs Test: Login', function () {
 
     beforeEach(() => {
-        // Load the fixture file fixtures/user.json before each test
         cy.fixture('user').then(function (data) {
             this.user = data;
         })
     })
 
     it('Verify locked_out_user cannot login', function () {
-        cy.login(this.user.invalidusername, this.user.password)
+        cy.visit('/')
+        cy.get('#user-name').type(this.user.invalidusername)
+        cy.get('#password').type(this.user.password)
+        cy.get('.btn_action').click()
         cy.get('[data-test="error"]').should('have.text', this.user.errorText)
     })
 
+
     it('Verify you can log in with user: Standard_user', function () {
-        cy.login(this.user.username, this.user.password)
+        cy.visit('/')
+        cy.get('#user-name').type(this.user.username)
+        cy.get('#password').type(this.user.password)
+        cy.get('.btn_action').click()
+        cy.visit('/inventory.html', { failOnStatusCode: false })
         cy.url().should('include', '/inventory.html')
-        // Save the cokie "session-username" to a variable so we can reuse it in other tests
-        cy.getCookie('session-username').then(function (response) {
-            Cypress.env('dev_token', response.value)
-        })
     })
 
 })
 
-describe('Sauce Labs Test: Add to Cart, Filter, Checkout', function () {
+describe('Sauce Labs Test: Login, Add to Cart, Filter, Checkout', function () {
 
     beforeEach(function () {
-        // Load the fixture file fixtures/user.json before each test
         cy.fixture('user').then(function (data) {
             this.user = data;
+        }).then(function () {
+            cy.login(this.user.username, this.user.password)
         })
-        // Set the cokie "session-username" before each test
-        cy.setCookie('session-username', Cypress.env('dev_token'))
     })
 
     it('Verify the Standard_user can add items to the card', function () {
