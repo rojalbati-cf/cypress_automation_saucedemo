@@ -3,7 +3,7 @@
 describe('Sauce Labs Test: Login', function () {
 
     beforeEach(() => {
-        // Load fixture file fixtures/user.json
+        // Load the data from fixture file fixtures/user.json
         cy.fixture('user').then(function (data) {
             this.user = data;
         })
@@ -11,7 +11,7 @@ describe('Sauce Labs Test: Login', function () {
 
     it('Verify locked_out_user cannot login', function () {
         cy.login(this.user.invalidusername, this.user.password)
-        // Verify that the user cannot log in and error message is displayed
+        // Verify error message is displayed
         cy.get('[data-test="error"]').should('have.text', this.user.errorText)
     })
 
@@ -29,7 +29,7 @@ describe('Sauce Labs Test: Login, Add to Cart, Filter, Checkout', function () {
         cy.fixture('user').then(function (data) {
             this.user = data;
         }).then(function () {
-            // Pre-requsite: Users should be logged in before each test
+            // User login before each test
             cy.loginwithSession(this.user.username, this.user.password)
             cy.visit('/inventory.html', { failOnStatusCode: false })
         })
