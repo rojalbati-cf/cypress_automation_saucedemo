@@ -9,20 +9,12 @@ describe('Sauce Labs Test: Login', function () {
     })
 
     it('Verify locked_out_user cannot login', function () {
-        cy.visit('/')
-        cy.get('#user-name').type(this.user.invalidusername)
-        cy.get('#password').type(this.user.password)
-        cy.get('.btn_action').click()
+        cy.login(this.user.invalidusername, this.user.password)
         cy.get('[data-test="error"]').should('have.text', this.user.errorText)
     })
 
-
     it('Verify you can log in with user: Standard_user', function () {
-        cy.visit('/')
-        cy.get('#user-name').type(this.user.username)
-        cy.get('#password').type(this.user.password)
-        cy.get('.btn_action').click()
-        cy.visit('/inventory.html', { failOnStatusCode: false })
+        cy.login(this.user.username, this.user.password)
         cy.url().should('include', '/inventory.html')
     })
 
@@ -34,19 +26,18 @@ describe('Sauce Labs Test: Login, Add to Cart, Filter, Checkout', function () {
         cy.fixture('user').then(function (data) {
             this.user = data;
         }).then(function () {
-            cy.login(this.user.username, this.user.password)
+            cy.loginwithSession(this.user.username, this.user.password)
+            cy.visit('/inventory.html', { failOnStatusCode: false })
         })
     })
 
     it('Verify the Standard_user can add items to the card', function () {
-        cy.visit('/inventory.html', { failOnStatusCode: false })
         cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click()
         cy.get('.shopping_cart_link').click()
         cy.get('.inventory_item_name').should('have.text', 'Sauce Labs Backpack')
     })
 
     it('Verify the Standard_user user can filter the products', function () {
-        cy.visit('/inventory.html', { failOnStatusCode: false })
         cy.get('.product_sort_container').select('Price (low to high)');
         // Price low to high check
         let initialPrice = 0;
@@ -58,7 +49,6 @@ describe('Sauce Labs Test: Login, Add to Cart, Filter, Checkout', function () {
     })
 
     it('Verify the Standard_user user can perform a checkout', function () {
-        cy.visit('/inventory.html', { failOnStatusCode: false })
         cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click()
         cy.get('.shopping_cart_link').click()
         cy.get('[data-test="checkout"]').click()

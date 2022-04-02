@@ -1,4 +1,11 @@
 Cypress.Commands.add('login', (username, password) => {
+        cy.visit('/')
+        cy.get('#user-name').type(username)
+        cy.get('#password').type(password)
+        cy.get('.btn_action').click()
+})
+
+Cypress.Commands.add('loginwithSession', (username, password) => {
     cy.session([username, password], () => {
         cy.visit('/')
         cy.get('#user-name').type(username)
