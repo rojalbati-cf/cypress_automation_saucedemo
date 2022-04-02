@@ -44,13 +44,7 @@ describe('Sauce Labs Test: Login, Add to Cart, Filter, Checkout', function () {
 
     it('Verify the Standard_user user can filter the products', function () {
         cy.get('.product_sort_container').select('Price (low to high)');
-        // Check price is low to high
-        let initialPrice = 0;
-        cy.get('.inventory_item_price').each(($el) => {
-            let price = Number($el.text().replace('$', ''));
-            expect(price).to.be.at.least(initialPrice);
-            initialPrice = price;
-        })
+        cy.verifyPriceLowToHigh()
     })
 
     it('Verify the Standard_user user can perform a checkout', function () {
