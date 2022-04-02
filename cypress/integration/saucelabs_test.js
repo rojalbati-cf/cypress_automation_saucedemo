@@ -3,7 +3,7 @@
 describe('Sauce Labs Test: Login', function () {
 
     beforeEach(() => {
-        // Load the data from fixture file fixtures/user.json
+        // Load the test data from fixture file fixtures/user.json
         cy.fixture('user').then(function (data) {
             this.user = data;
         })
@@ -11,14 +11,12 @@ describe('Sauce Labs Test: Login', function () {
 
     it('Verify locked_out_user cannot login', function () {
         cy.login(this.user.invalidusername, this.user.password)
-        // Verify error message is displayed
-        cy.get('[data-test="error"]').should('have.text', this.user.errorText)
+        cy.get('[data-test="error"]').should('have.text', this.user.errorText) // Verify error message is displayed
     })
 
     it('Verify you can log in with user: Standard_user', function () {
         cy.login(this.user.username, this.user.password)
-        // Verify the user is logged in
-        cy.url().should('include', '/inventory.html')
+        cy.url().should('include', '/inventory.html') // Verify the user is logged in
     })
 
 })
@@ -38,8 +36,7 @@ describe('Sauce Labs Test: Login, Add to Cart, Filter, Checkout', function () {
     it('Verify the Standard_user can add items to the card', function () {
         cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click()
         cy.get('.shopping_cart_link').click()
-        // Verify the item is added to the cart
-        cy.get('.inventory_item_name').should('have.text', 'Sauce Labs Backpack')
+        cy.get('.inventory_item_name').should('have.text', 'Sauce Labs Backpack') // Verify the item is added to the cart
     })
 
     it('Verify the Standard_user user can filter the products', function () {
@@ -53,8 +50,7 @@ describe('Sauce Labs Test: Login, Add to Cart, Filter, Checkout', function () {
         cy.get('[data-test="checkout"]').click()
         cy.enterCheckoutInformation(this.user.firstName, this.user.lastName, this.user.postalCode)
         cy.get('[data-test="finish"]').click()
-        // Verify the user can perform checkout
-        cy.get('.complete-text').should('have.text', this.user.completedText)
+        cy.get('.complete-text').should('have.text', this.user.completedText) // Verify the user can perform checkout
     })
 
 })
