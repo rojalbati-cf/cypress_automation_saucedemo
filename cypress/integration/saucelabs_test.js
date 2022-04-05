@@ -27,7 +27,7 @@ describe('Sauce Labs Test: Login, Add to Cart, Filter, Checkout', function () {
         cy.fixture('user').then(function (data) {
             this.user = data;
         }).then(function () {
-            // User login before each test
+            // User login before each test, this will skip the login step if the user is already logged in
             cy.loginwithSession(this.user.username, this.user.password)
             cy.visit('/inventory.html', { failOnStatusCode: false })
         })
