@@ -14,7 +14,7 @@ describe('Sauce Labs Test: Login', function () {
         cy.get('[data-test="error"]').should('have.text', this.user.errorText) // Verify error message is displayed
     })
 
-    it('Standard user can log in', function () {
+    it('Standard user can login', function () {
         cy.login(this.user.username, this.user.password)
         cy.url().should('include', '/inventory.html') // Verify the user is logged in
     })
