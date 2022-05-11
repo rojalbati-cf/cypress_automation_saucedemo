@@ -42,7 +42,7 @@ describe('Sauce Labs Test: Add to Cart, Filter, Checkout', function () {
     it('Standard user user can filter the products', function () {
         cy.get('.product_sort_container').select('Price (low to high)');
         cy.verifyPriceLowToHigh()
-        expect(1).to.equal(1); // Adding this line to fail the test
+        expect(1).to.equal(2); // Adding this line to fail the test
     })
 
     it('Standard user can perform a checkout', function () {
